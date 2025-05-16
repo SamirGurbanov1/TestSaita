@@ -9,8 +9,6 @@
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="css/templatemo-style.css" />
-
   <style>
     body {
       background: url(img/fon1.jpg);
@@ -101,6 +99,17 @@
         margin: 0.5rem 0;
       }
     }
+
+    /* Кнопка корзины */
+    #cart-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1050;
+      border-radius: 50px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1.1rem;
+    }
   </style>
 </head>
 
@@ -139,6 +148,42 @@
         </div>
       </div>
 
+      <!-- Меню столовой -->
+      <section class="tm-content-container">
+        <h3 class="tm-page-title text-center mb-4">Меню столовой</h3>
+
+        <div class="row" id="menu-items">
+          <!-- Товары появятся здесь -->
+        </div>
+
+        <!-- Кнопка корзины -->
+        <button type="button" class="btn btn-success btn-lg" id="cart-button" data-toggle="modal" data-target="#cartModal">
+          Корзина (<span id="cart-count">0</span>)
+        </button>
+
+        <!-- Модальное окно корзины -->
+        <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="cartModalLabel">Ваша корзина</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="cart-items">
+                <!-- Содержимое корзины -->
+              </div>
+              <div class="modal-footer">
+                <div class="mr-auto font-weight-bold" id="cart-total">Итого: 0 ₽</div>
+                <button type="button" class="btn btn-danger" id="clear-cart">Очистить корзину</button>
+                <button type="button" class="btn btn-primary" id="checkout">Оформить заказ</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- Форма обратной связи -->
       <section class="contact-form">
         <h3 class="tm-page-title text-center mb-4">Свяжитесь с нами</h3>
@@ -167,20 +212,10 @@
     </footer>
   </div>
 
+  <!-- Подключение библиотек -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <script>
-    // Обработка отправки формы: просто перенаправление на thankyou.html
-    $('#contactForm').on('submit', function (e) {
-      e.preventDefault(); // отменяем стандартную отправку
-      // Можно здесь добавить валидацию, отправку на сервер через AJAX и т.п.
-      // Но пока просто редирект на страницу благодарности:
-      window.location.href = 'thankyou.html';
-    });
-  </script>
-
-</body>
-
-</html>
+    // Данные меню (можно менять и расширять)
