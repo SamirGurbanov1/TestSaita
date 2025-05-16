@@ -9,6 +9,7 @@
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+
   <style>
     body {
       background: url(img/fon1.jpg);
@@ -17,7 +18,11 @@
       color: #333;
     }
 
-    /* Навигация */
+    .tm-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
     .tm-nav ul {
       list-style: none;
       padding-left: 0;
@@ -34,188 +39,179 @@
       text-decoration: none;
       color: #555;
       font-weight: 600;
-      position: relative;
-      padding-bottom: 4px;
-      transition: color 0.3s ease;
     }
 
-    .tm-nav ul li a:hover,
     .tm-nav ul li.active a {
       color: #0aa150;
     }
 
-    .tm-nav ul li.active a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 3px;
-      background-color: #0aa150;
-      border-radius: 2px;
-    }
-
-    /* Секция контента */
-    .tm-content-container {
-      max-width: 900px;
-      margin: 0 auto 3rem auto;
-      padding: 0 1rem;
-    }
-
-    .tm-page-title {
-      color: #0aa150;
-      margin-bottom: 1.5rem;
-      font-weight: 700;
-    }
-
-    /* Форма обратной связи */
-    .contact-form {
-      background: rgba(255, 255, 255, 0.95);
+    .menu-section {
+      background: #ffffffdd;
       padding: 2rem;
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      max-width: 600px;
-      margin: 0 auto 3rem auto;
+      margin-top: 2rem;
     }
 
-    /* Футер */
-    footer {
-      background-color: #f8f9fa;
-      padding: 1rem 0;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #666;
-      border-top: 1px solid #ddd;
-    }
-
-    /* Адаптив */
-    @media (max-width: 576px) {
-      .tm-nav ul {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .tm-nav ul li {
-        margin: 0.5rem 0;
-      }
-    }
-
-    /* Кнопка корзины */
-    #cart-button {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1050;
-      border-radius: 50px;
-      padding: 0.75rem 1.5rem;
-      font-size: 1.1rem;
+    .cart-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background-color: red;
+      color: white;
+      border-radius: 50%;
+      padding: 3px 7px;
+      font-size: 0.75rem;
     }
   </style>
 </head>
 
 <body>
-  <div class="tm-page-container mx-auto">
-
-    <header class="tm-header text-center mt-4 mb-5">
-      <h1 class="tm-title text-uppercase">ОБЕДЫ С ДОСТАВКОЙ</h1>
-      <p class="tm-primary-color"><i>Пятигорск, Иноземцево</i></p>
+  <div class="container">
+    <header class="tm-header text-center mt-4">
+      <h1 class="tm-title">ОБЕДЫ С ДОСТАВКОЙ</h1>
+      <p class="tm-primary-color">Пятигорск, Иноземцево</p>
     </header>
 
-    <section class="tm-section">
-      <nav class="tm-nav">
-        <ul>
-          <li><a href="index.html">Главная</a></li>
-          <li><a href="gallery.php">Меню</a></li>
-          <li class="active"><a href="contact.html">Контакты</a></li>
-        </ul>
-      </nav>
+    <nav class="tm-nav">
+      <ul>
+        <li class="active"><a href="#">Главная</a></li>
+        <li><a href="contact.html">Контакты</a></li>
+        <li>
+          <button class="btn btn-outline-success position-relative" data-toggle="modal" data-target="#cartModal">
+            Корзина
+            <span class="cart-badge" id="cart-count">0</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
 
-      <div class="tm-content-container">
-        <figure class="mb-4 text-center">
-          <img src="img/img-1.jpg" alt="О компании" class="img-fluid rounded shadow-sm" />
-        </figure>
-
-        <div class="tm-content">
-          <h2 class="tm-page-title">О компании</h2>
-          <p class="mb-4">
-            Наша компания более 10 лет занимается доставкой обедов и в настоящий момент является одним из лидеров в данной сфере.
-            Одно из приоритетных направлений - кейтеринг и организация корпоративного питания, куда входит также открытие столовых и буфетов на территории офисных и торговых центров.
-          </p>
-          <p>
-            Мы сотрудничаем с целым рядом крупных организаций, и наши партнеры положительно оценивают качество наших услуг. Мы всегда готовы предложить свежую и качественную продукцию и осуществить быструю доставку по всей территории Кавказских Минеральных Вод.
-            ООО «Риал-Хобби» – это богатый опыт, профессионализм и индивидуальный подход к каждому клиенту.
-          </p>
-        </div>
-      </div>
-
-      <!-- Меню столовой -->
-      <section class="tm-content-container">
-        <h3 class="tm-page-title text-center mb-4">Меню столовой</h3>
-
-        <div class="row" id="menu-items">
-          <!-- Товары появятся здесь -->
-        </div>
-
-        <!-- Кнопка корзины -->
-        <button type="button" class="btn btn-success btn-lg" id="cart-button" data-toggle="modal" data-target="#cartModal">
-          Корзина (<span id="cart-count">0</span>)
-        </button>
-
-        <!-- Модальное окно корзины -->
-        <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg modal-dialog-scrollable">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="cartModalLabel">Ваша корзина</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body" id="cart-items">
-                <!-- Содержимое корзины -->
-              </div>
-              <div class="modal-footer">
-                <div class="mr-auto font-weight-bold" id="cart-total">Итого: 0 ₽</div>
-                <button type="button" class="btn btn-danger" id="clear-cart">Очистить корзину</button>
-                <button type="button" class="btn btn-primary" id="checkout">Оформить заказ</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Форма обратной связи -->
-      <section class="contact-form">
-        <h3 class="tm-page-title text-center mb-4">Свяжитесь с нами</h3>
-        <form id="contactForm">
-          <div class="form-group">
-            <label for="name">Имя</label>
-            <input id="name" name="name" type="text" class="form-control" placeholder="Ваше имя" required />
-          </div>
-          <div class="form-group">
-            <label for="phone">Телефон</label>
-            <input id="phone" name="phone" type="tel" class="form-control" placeholder="+7 (___) ___-__-__" required />
-          </div>
-          <div class="form-group">
-            <label for="message">Сообщение</label>
-            <textarea id="message" name="message" class="form-control" rows="4" placeholder="Ваше сообщение"></textarea>
-          </div>
-          <button type="submit" class="btn btn-success btn-block text-uppercase font-weight-bold">Отправить</button>
-        </form>
-      </section>
-
+    <section class="menu-section">
+      <h2 class="text-center text-success mb-4">Меню столовой</h2>
+      <div class="row" id="menu-items"></div>
     </section>
-
-    <footer>
-      <span>ООО «Риал-Хобби» 357500, Россия, г. Пятигорск, пр. Калинина, 9</span><br />
-      <span>Все права защищены © «Риал-Хобби» 2005 - 2022</span>
-    </footer>
   </div>
 
-  <!-- Подключение библиотек -->
+  <!-- Модальное окно корзины -->
+  <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cartModalLabel">Ваша корзина</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="cart-items"></div>
+        <div class="modal-footer justify-content-between">
+          <strong id="cart-total">Итого: 0 ₽</strong>
+          <div>
+            <button type="button" class="btn btn-outline-danger btn-sm" id="clear-cart">Очистить</button>
+            <button type="button" class="btn btn-success btn-sm" id="checkout">Оформить заказ</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-center mt-5 p-3 bg-light border-top">
+    ООО «Риал-Хобби» 357500, Россия, г. Пятигорск, пр. Калинина, 9<br />
+    Все права защищены © «Риал-Хобби» 2005 - 2022
+  </footer>
+
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <script>
-    // Данные меню (можно менять и расширять)
+    const menu = [
+      { id: 1, name: "Борщ", price: 120 },
+      { id: 2, name: "Котлета с пюре", price: 180 },
+      { id: 3, name: "Салат Цезарь", price: 150 },
+      { id: 4, name: "Компот", price: 50 }
+    ];
+
+    const cart = JSON.parse(localStorage.getItem('cart')) || {};
+
+    function saveCart() {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    function updateCart() {
+      const cartItemsDiv = document.getElementById('cart-items');
+      cartItemsDiv.innerHTML = '';
+
+      let total = 0;
+      let count = 0;
+
+      for (const id in cart) {
+        const item = menu.find(m => m.id == id);
+        const quantity = cart[id];
+        const itemTotal = item.price * quantity;
+        total += itemTotal;
+        count += quantity;
+
+        cartItemsDiv.innerHTML += `
+          <div class="d-flex justify-content-between mb-2">
+            <div>${item.name} x ${quantity}</div>
+            <div>${itemTotal} ₽</div>
+          </div>
+        `;
+      }
+
+      document.getElementById('cart-total').textContent = `Итого: ${total} ₽`;
+      document.getElementById('cart-count').textContent = count;
+      saveCart();
+    }
+
+    function renderMenu() {
+      const menuDiv = document.getElementById('menu-items');
+      menuDiv.innerHTML = '';
+      menu.forEach(item => {
+        const col = document.createElement('div');
+        col.className = 'col-md-3 mb-4';
+
+        col.innerHTML = `
+          <div class="card h-100 shadow-sm">
+            <div class="card-body d-flex flex-column justify-content-between">
+              <h5 class="card-title">${item.name}</h5>
+              <p class="card-text">${item.price} ₽</p>
+              <button class="btn btn-outline-success btn-sm add-to-cart" data-id="${item.id}">Добавить в корзину</button>
+            </div>
+          </div>
+        `;
+
+        menuDiv.appendChild(col);
+      });
+
+      document.querySelectorAll('.add-to-cart').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-id');
+          cart[id] = (cart[id] || 0) + 1;
+          updateCart();
+        });
+      });
+    }
+
+    document.getElementById('clear-cart').addEventListener('click', () => {
+      for (const id in cart) delete cart[id];
+      updateCart();
+    });
+
+    document.getElementById('checkout').addEventListener('click', () => {
+      if (Object.keys(cart).length === 0) {
+        alert("Корзина пуста!");
+        return;
+      }
+      alert("Спасибо за заказ!");
+      for (const id in cart) delete cart[id];
+      updateCart();
+      $('#cartModal').modal('hide');
+    });
+
+    renderMenu();
+    updateCart();
+  </script>
+
+</body>
+
+</html>
