@@ -1,217 +1,172 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>ObedKMV</title>
-
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-
   <style>
     body {
-      background: url(img/fon1.jpg);
-      background-attachment: fixed;
-      font-family: "Open Sans", Arial, sans-serif;
-      color: #333;
+      font-family: "Open Sans", sans-serif;
+      background: #f4f4f4;
+      padding-top: 2rem;
     }
-
-    .tm-header h1 {
-      font-size: 2rem;
-      font-weight: 700;
-    }
-
-    .tm-nav ul {
-      list-style: none;
-      padding-left: 0;
-      display: flex;
-      justify-content: center;
-      margin-bottom: 2rem;
-    }
-
-    .tm-nav ul li {
-      margin: 0 1rem;
-    }
-
-    .tm-nav ul li a {
-      text-decoration: none;
-      color: #555;
-      font-weight: 600;
-    }
-
-    .tm-nav ul li.active a {
-      color: #0aa150;
-    }
-
-    .menu-section {
-      background: #ffffffdd;
-      padding: 2rem;
+    .menu-item {
+      border: 1px solid #ddd;
       border-radius: 8px;
-      margin-top: 2rem;
+      padding: 1rem;
+      background: #fff;
+      margin-bottom: 1rem;
     }
-
-    .cart-badge {
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      background-color: red;
-      color: white;
-      border-radius: 50%;
-      padding: 3px 7px;
-      font-size: 0.75rem;
+    .cart-container {
+      background: #fff;
+      border-radius: 8px;
+      padding: 1rem;
+      border: 1px solid #ddd;
+    }
+    .cart-item {
+      border-bottom: 1px solid #eee;
+      padding: 0.5rem 0;
+    }
+    .total {
+      font-weight: bold;
+      font-size: 1.2rem;
     }
   </style>
 </head>
-
 <body>
   <div class="container">
-    <header class="tm-header text-center mt-4">
-      <h1 class="tm-title">ОБЕДЫ С ДОСТАВКОЙ</h1>
-      <p class="tm-primary-color">Пятигорск, Иноземцево</p>
+    <header class="text-center mb-4">
+      <h1 class="text-uppercase">Обеды с доставкой</h1>
+      <p class="text-muted">Пятигорск, Иноземцево</p>
     </header>
 
-    <nav class="tm-nav">
-      <ul>
-        <li class="active"><a href="#">Главная</a></li>
-        <li><a href="contact.html">Контакты</a></li>
-        <li>
-          <button class="btn btn-outline-success position-relative" data-toggle="modal" data-target="#cartModal">
-            Корзина
-            <span class="cart-badge" id="cart-count">0</span>
-          </button>
-        </li>
-      </ul>
-    </nav>
+    <h2>Меню</h2>
+    <div class="row" id="menu"></div>
 
-    <section class="menu-section">
-      <h2 class="text-center text-success mb-4">Меню столовой</h2>
-      <div class="row" id="menu-items"></div>
-    </section>
-  </div>
+    <h2 class="mt-5">Корзина</h2>
+    <div class="cart-container" id="cart">
+      <p>Корзина пуста.</p>
+    </div>
 
-  <!-- Модальное окно корзины -->
-  <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="cartModalLabel">Ваша корзина</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body" id="cart-items"></div>
-        <div class="modal-footer justify-content-between">
-          <strong id="cart-total">Итого: 0 ₽</strong>
-          <div>
-            <button type="button" class="btn btn-outline-danger btn-sm" id="clear-cart">Очистить</button>
-            <button type="button" class="btn btn-success btn-sm" id="checkout">Оформить заказ</button>
-          </div>
-        </div>
-      </div>
+    <div class="mt-3 d-flex justify-content-between">
+      <button class="btn btn-secondary" onclick="clearCart()">Очистить корзину</button>
+      <button class="btn btn-success" onclick="checkout()">Оформить заказ</button>
     </div>
   </div>
 
-  <footer class="text-center mt-5 p-3 bg-light border-top">
-    ООО «Риал-Хобби» 357500, Россия, г. Пятигорск, пр. Калинина, 9<br />
-    Все права защищены © «Риал-Хобби» 2005 - 2022
-  </footer>
-
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
   <script>
-    const menu = [
-      { id: 1, name: "Борщ", price: 120 },
-      { id: 2, name: "Котлета с пюре", price: 180 },
-      { id: 3, name: "Салат Цезарь", price: 150 },
-      { id: 4, name: "Компот", price: 50 }
+    const menuItems = [
+      { id: 1, name: "Борщ", price: 150 },
+      { id: 2, name: "Котлета с пюре", price: 250 },
+      { id: 3, name: "Салат Оливье", price: 120 },
+      { id: 4, name: "Компот", price: 60 }
     ];
 
-    const cart = JSON.parse(localStorage.getItem('cart')) || {};
+    let cart = {};
 
+    // === localStorage helpers ===
     function saveCart() {
       localStorage.setItem('cart', JSON.stringify(cart));
     }
 
-    function updateCart() {
-      const cartItemsDiv = document.getElementById('cart-items');
-      cartItemsDiv.innerHTML = '';
-
-      let total = 0;
-      let count = 0;
-
-      for (const id in cart) {
-        const item = menu.find(m => m.id == id);
-        const quantity = cart[id];
-        const itemTotal = item.price * quantity;
-        total += itemTotal;
-        count += quantity;
-
-        cartItemsDiv.innerHTML += `
-          <div class="d-flex justify-content-between mb-2">
-            <div>${item.name} x ${quantity}</div>
-            <div>${itemTotal} ₽</div>
-          </div>
-        `;
+    function loadCart() {
+      const stored = localStorage.getItem('cart');
+      if (stored) {
+        cart = JSON.parse(stored);
       }
-
-      document.getElementById('cart-total').textContent = `Итого: ${total} ₽`;
-      document.getElementById('cart-count').textContent = count;
-      saveCart();
     }
 
+    // === Menu ===
     function renderMenu() {
-      const menuDiv = document.getElementById('menu-items');
-      menuDiv.innerHTML = '';
-      menu.forEach(item => {
-        const col = document.createElement('div');
-        col.className = 'col-md-3 mb-4';
-
-        col.innerHTML = `
-          <div class="card h-100 shadow-sm">
-            <div class="card-body d-flex flex-column justify-content-between">
-              <h5 class="card-title">${item.name}</h5>
-              <p class="card-text">${item.price} ₽</p>
-              <button class="btn btn-outline-success btn-sm add-to-cart" data-id="${item.id}">Добавить в корзину</button>
-            </div>
+      const menu = document.getElementById('menu');
+      menu.innerHTML = '';
+      menuItems.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'col-md-6';
+        div.innerHTML = `
+          <div class="menu-item">
+            <h5>${item.name}</h5>
+            <p>Цена: ${item.price} ₽</p>
+            <button class="btn btn-primary btn-sm" onclick="addToCart(${item.id})">Добавить</button>
           </div>
         `;
-
-        menuDiv.appendChild(col);
-      });
-
-      document.querySelectorAll('.add-to-cart').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const id = btn.getAttribute('data-id');
-          cart[id] = (cart[id] || 0) + 1;
-          updateCart();
-        });
+        menu.appendChild(div);
       });
     }
 
-    document.getElementById('clear-cart').addEventListener('click', () => {
-      for (const id in cart) delete cart[id];
-      updateCart();
-    });
-
-    document.getElementById('checkout').addEventListener('click', () => {
-      if (Object.keys(cart).length === 0) {
-        alert("Корзина пуста!");
+    // === Cart ===
+    function renderCart() {
+      const cartContainer = document.getElementById('cart');
+      cartContainer.innerHTML = '';
+      const keys = Object.keys(cart);
+      if (keys.length === 0) {
+        cartContainer.innerHTML = '<p>Корзина пуста.</p>';
         return;
       }
-      alert("Спасибо за заказ!");
-      for (const id in cart) delete cart[id];
-      updateCart();
-      $('#cartModal').modal('hide');
-    });
 
+      let total = 0;
+      keys.forEach(key => {
+        const item = cart[key];
+        total += item.qty * item.price;
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'cart-item d-flex justify-content-between align-items-center';
+        itemDiv.innerHTML = `
+          <div>
+            <strong>${item.name}</strong> × ${item.qty} = ${item.qty * item.price} ₽
+          </div>
+          <div>
+            <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart(${item.id})">−</button>
+          </div>
+        `;
+        cartContainer.appendChild(itemDiv);
+      });
+
+      const totalDiv = document.createElement('div');
+      totalDiv.className = 'total text-right mt-3';
+      totalDiv.innerHTML = `Итого: ${total} ₽`;
+      cartContainer.appendChild(totalDiv);
+    }
+
+    // === Cart operations ===
+    function addToCart(id) {
+      if (!cart[id]) {
+        const item = menuItems.find(i => i.id === id);
+        cart[id] = { ...item, qty: 0 };
+      }
+      cart[id].qty++;
+      saveCart();
+      renderCart();
+    }
+
+    function removeFromCart(id) {
+      if (cart[id]) {
+        cart[id].qty--;
+        if (cart[id].qty <= 0) {
+          delete cart[id];
+        }
+        saveCart();
+        renderCart();
+      }
+    }
+
+    function clearCart() {
+      cart = {};
+      saveCart();
+      renderCart();
+    }
+
+    function checkout() {
+      const items = Object.values(cart).map(i => `${i.name} × ${i.qty}`).join(', ');
+      const total = Object.values(cart).reduce((sum, i) => sum + i.qty * i.price, 0);
+      alert(`Ваш заказ: ${items}. Общая сумма: ${total} ₽. Спасибо за заказ!`);
+      clearCart();
+    }
+
+    // === Initialization ===
+    loadCart();
     renderMenu();
-    updateCart();
+    renderCart();
   </script>
-
 </body>
-
 </html>
